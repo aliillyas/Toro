@@ -32,6 +32,8 @@ import im.ene.toro.ToroPlayer;
  */
 public class ExoPlayerViewHelper extends PlayerViewHelper implements PlayerCallback {
 
+  private static final String TAG = "ToroLib@ExoPlayerHelper";
+
   // Require the player Object and the View holds it.
   public ExoPlayerViewHelper(@NonNull ToroPlayer player, @NonNull View itemView) {
     super(player, itemView);
@@ -43,9 +45,9 @@ public class ExoPlayerViewHelper extends PlayerViewHelper implements PlayerCallb
         // Do nothing
         break;
       case ExoPlayer.STATE_BUFFERING:
-        if (!playWhenReady && !player.isPrepared()) {
-          this.player.onVideoPrepared();
+        if (!this.player.isPrepared()) {
           this.onPrepared(this.itemView, this.itemView.getParent());
+          this.player.onVideoPrepared();
         }
         break;
       case ExoPlayer.STATE_READY:

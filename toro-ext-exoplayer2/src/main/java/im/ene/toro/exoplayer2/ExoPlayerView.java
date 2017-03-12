@@ -105,7 +105,7 @@ public class ExoPlayerView extends FrameLayout implements ExoPlayer.EventListene
   }
 
   public void setMediaSource(MediaSource source, boolean shouldAutoPlay) throws ParserException {
-    if (source == null || source.equals(this.mediaSource)) { // including null
+    if (source == null) { // including null
       return;
     }
 
@@ -228,7 +228,7 @@ public class ExoPlayerView extends FrameLayout implements ExoPlayer.EventListene
     this.mediaSource = null;
   }
 
-  public long getResumePosition() {
+  @SuppressWarnings("unused") public long getResumePosition() {
     return resumePosition;
   }
 
@@ -257,7 +257,7 @@ public class ExoPlayerView extends FrameLayout implements ExoPlayer.EventListene
     resumePosition = C.TIME_UNSET;
   }
 
-  private UUID getDrmUuid(String typeString) throws ParserException {
+  private static UUID getDrmUuid(String typeString) throws ParserException {
     switch (typeString.toLowerCase()) {
       case "widevine":
         return C.WIDEVINE_UUID;
@@ -370,7 +370,7 @@ public class ExoPlayerView extends FrameLayout implements ExoPlayer.EventListene
 
   // Implement player interface
 
-  public SimpleExoPlayer getPlayer() {
+  public final SimpleExoPlayer getPlayer() {
     return this.playerView.getPlayer();
   }
 

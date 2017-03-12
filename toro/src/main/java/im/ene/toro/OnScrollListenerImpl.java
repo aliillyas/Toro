@@ -20,7 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -77,12 +77,15 @@ final class OnScrollListenerImpl extends RecyclerView.OnScrollListener implement
       int[] firstVisibleItemPositions = layoutManager.findFirstVisibleItemPositions(null);
       int[] lastVisibleItemPositions = layoutManager.findLastVisibleItemPositions(null);
 
-      // TODO Consider to use Arrays#sort() instead?
-      List<Integer> firstVisiblePositions = ToroUtil.asList(firstVisibleItemPositions);
-      List<Integer> lastVisiblePositions = ToroUtil.asList(lastVisibleItemPositions);
+      if (firstVisibleItemPositions.length > 0) {
+        Arrays.sort(firstVisibleItemPositions);
+        firstPosition = firstVisibleItemPositions[0];
+      }
 
-      firstPosition = Collections.min(firstVisiblePositions);
-      lastPosition = Collections.max(lastVisiblePositions);
+      if (lastVisibleItemPositions.length > 0) {
+        Arrays.sort(lastVisibleItemPositions);
+        lastPosition = lastVisibleItemPositions[lastVisibleItemPositions.length - 1];
+      }
     } else if (parent.getLayoutManager() instanceof ToroLayoutManager) {
       ToroLayoutManager layoutManager = (ToroLayoutManager) parent.getLayoutManager();
       firstPosition = layoutManager.getFirstVisibleItemPosition();
@@ -132,12 +135,14 @@ final class OnScrollListenerImpl extends RecyclerView.OnScrollListener implement
       playerManager.pausePlayback();
     }
 
+    // We allows new player, so first we need to clear current one.
+    playerManager.setPlayer(null);
+
     if (electedPlayer == null) {
       // Old president resigned, but there is no new ones, we are screwed up, get out of here.
       return;
     }
 
-    playerManager.setPlayer(null);  // we allows new player, so first we need to clear current one
     // Well... let's the BlackHouse starts new cycle with the new President!
     if (!electedPlayer.isPrepared()) {
       electedPlayer.preparePlayer(false);

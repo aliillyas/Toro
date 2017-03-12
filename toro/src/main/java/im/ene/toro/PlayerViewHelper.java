@@ -87,7 +87,7 @@ public abstract class PlayerViewHelper {
   }
 
   @CallSuper public void onBound() {
-    //
+    // Empty
   }
 
   @CallSuper public void onRecycled() {
@@ -113,7 +113,7 @@ public abstract class PlayerViewHelper {
    * @param parent parent which holds current ViewHolder
    */
   @CallSuper protected void onPrepared(@NonNull View itemView, @Nullable ViewParent parent) {
-    Toro.sInstance.onVideoPrepared(this.player, itemView, parent);
+    Toro.sInstance.onPlayerPrepared(this.player, itemView, parent);
   }
 
   @Nullable protected final PlayerManager getPlayerManager(ViewParent parent) {

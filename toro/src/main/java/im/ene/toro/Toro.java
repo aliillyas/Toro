@@ -32,7 +32,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static android.os.Build.VERSION.SDK_INT;
 
@@ -49,7 +48,7 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
 
   public static final double DEFAULT_OFFSET = 0.75;
 
-  private static AtomicInteger attachCount = new AtomicInteger();
+  // private static AtomicInteger attachCount = new AtomicInteger();
 
   /**
    * Stop playback strategy
@@ -91,7 +90,6 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
    */
   public static void attach(@NonNull Activity activity) {
     init(activity.getApplication());
-    attachCount.incrementAndGet();
   }
 
   /**
@@ -102,15 +100,15 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
   public static void init(Application application) {
     if (sInstance == null) {
       synchronized (Toro.class) {
-        sInstance = new Toro();
+        if (sInstance == null) {
+          sInstance = new Toro();
+          application.registerActivityLifecycleCallbacks(sInstance);
+          if (BuildConfig.DEBUG) {
+            application.registerActivityLifecycleCallbacks(new LifeCycleDebugger());
+          }
+        }
       }
     }
-
-    if (attachCount.get() == 0) {
-      application.registerActivityLifecycleCallbacks(sInstance);
-    }
-
-    application.registerActivityLifecycleCallbacks(new LifeCycleDebugger());
   }
 
   /**
@@ -119,16 +117,9 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
    *
    * @param activity The host Activity where Toro will detach from.
    */
-  public static void detach(Activity activity) {
-    Application application = activity.getApplication();
-    if (application != null && attachCount.decrementAndGet() == 0) {
-      application.unregisterActivityLifecycleCallbacks(sInstance);
-    }
-
-    // Cleanup
-    for (RecyclerView view : sInstance.managers.keySet()) {
-      unregister(view);
-    }
+  @Deprecated public static void detach(Activity activity) {
+    // Deprecated.
+    // Just do nothing here.
   }
 
   public static ToroStrategy getStrategy() {
@@ -195,8 +186,7 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
     if (playerManager.getPlayer() != null
         && playerManager.getPlaybackState(playerManager.getPlayer().getMediaId()) != null) {
       ToroPlayer player = playerManager.getPlayer();
-      if (player.wantsToPlay() && player.wantsToPlay() && //
-          Toro.getStrategy().allowsToPlay(player, view)) {
+      if (player.wantsToPlay() && Toro.getStrategy().allowsToPlay(player, view)) {
         if (!player.isPrepared()) {
           player.preparePlayer(false);
         } else if (!player.isPlaying()) {
@@ -215,6 +205,11 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
   public static void unregister(RecyclerView view) {
     if (view == null) {
       throw new NullPointerException("Un-registering View must not be null");
+    }
+
+    if (!sInstance.managers.containsKey(view)) {
+      // Just return since we have not control this view.
+      return;
     }
 
     OnScrollListenerImpl listener = sInstance.listeners.remove(view);
@@ -495,7 +490,7 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
 
   // Centralize Video state callbacks
 
-  void onVideoPrepared(@NonNull ToroPlayer player, @NonNull View itemView,
+  void onPlayerPrepared(@NonNull ToroPlayer player, @NonNull View itemView,
       @Nullable ViewParent parent) {
     if (!player.wantsToPlay() || !Toro.getStrategy().allowsToPlay(player, parent)) {
       return;
