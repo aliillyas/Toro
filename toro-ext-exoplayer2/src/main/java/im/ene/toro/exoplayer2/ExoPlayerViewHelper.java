@@ -41,16 +41,20 @@ public class ExoPlayerViewHelper extends PlayerViewHelper implements PlayerCallb
   }
 
   @Override public void onPlayerStateChanged(boolean playWhenReady, @State int state) {
-    Log.i("ToroLib", "onPlayerStateChanged: " + Thread.currentThread().getName());
+    Log.d("ToroLib",
+        "stateChanged() called with: player = [" + Integer.toHexString(player.hashCode())  //
+            + "], flag = [" + playWhenReady + "], state = [" + state + "]");
     switch (state) {
       case ExoPlayer.STATE_IDLE:
         // Do nothing
         break;
       case ExoPlayer.STATE_BUFFERING:
-        if (!playWhenReady && !this.player.isPrepared()) {
-          this.onPrepared(this.itemView, this.itemView.getParent());
-          this.player.onVideoPrepared();
-        }
+        //if (!playWhenReady && !this.player.isPrepared()) {
+        //  this.onPrepared(this.itemView, this.itemView.getParent());
+        //  this.player.onVideoPrepared();
+        //}
+        super.getToro().onPlayerBuffering(this.player, this.itemView, this.itemView.getParent(), //
+            playWhenReady);
         break;
       case ExoPlayer.STATE_READY:
         if (playWhenReady) {

@@ -491,6 +491,21 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
 
   // Centralize Video state callbacks
 
+  // Special state handling for ExoPlayer2
+  // THis state is considered in the following cases:
+  // 1. First load, buffering before ready (state == 2, playWhenReady == false)
+  // 2. Being ready and playing, need more buffer (state == 2, playWhenReady == true)
+  // 3. Something else
+  public void onPlayerBuffering(ToroPlayer player, View itemView, ViewParent parent,
+      boolean playWhenReady) {
+    if (playWhenReady) {
+      return;
+    }
+
+    // TODO do something
+    onPlayerPrepared(player, itemView, parent);
+  }
+
   void onPlayerPrepared(@NonNull ToroPlayer player, @NonNull View itemView,
       @Nullable ViewParent parent) {
     if (!player.wantsToPlay() || !Toro.getStrategy().allowsToPlay(player, parent)) {

@@ -137,10 +137,8 @@ final class OnScrollListenerImpl extends RecyclerView.OnScrollListener implement
       playerManager.savePlaybackState(currentPlayer.getMediaId(),
           currentPlayer.getCurrentPosition(), currentPlayer.getDuration());
       playerManager.pausePlayback();
+      playerManager.setPlayer(null);
     }
-
-    // We allows new player, so first we need to clear current one.
-    playerManager.setPlayer(null);
 
     if (electedPlayer == null) {
       // Old president resigned, but there is no new ones, we are screwed up, get out of here.

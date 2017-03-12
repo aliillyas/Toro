@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ParserException;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import im.ene.toro.Toro;
 import im.ene.toro.ToroAdapter;
@@ -36,7 +37,7 @@ import im.ene.toro.ToroUtil;
 public abstract class ExoPlayerViewHolder extends ToroAdapter.ViewHolder implements ToroPlayer {
 
   @NonNull protected final ExoPlayerView playerView;
-  protected final ExoPlayerViewHelper helper;
+  @SuppressWarnings("WeakerAccess") protected final ExoPlayerViewHelper helper;
 
   public ExoPlayerViewHolder(View itemView) {
     super(itemView);
@@ -167,9 +168,10 @@ public abstract class ExoPlayerViewHolder extends ToroAdapter.ViewHolder impleme
   }
 
   @Override public boolean isPrepared() {
-    return playerView.getPlayer() != null
-        && playerView.getPlayer().getPlaybackState() == ExoPlayer.STATE_READY
-        && !playerView.isPlaying();
+    SimpleExoPlayer player = playerView.getPlayer();
+    return player != null && (player.getPlaybackState()
+        == ExoPlayer.STATE_READY || (player.getPlaybackState() == ExoPlayer.STATE_BUFFERING
+        && player.getPlayWhenReady()));
   }
 
   @Override public float visibleAreaOffset() {

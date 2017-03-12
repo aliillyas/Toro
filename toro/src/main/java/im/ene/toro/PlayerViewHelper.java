@@ -124,6 +124,13 @@ public abstract class PlayerViewHelper {
   }
 
   /**
+   * @hide
+   */
+  protected final Toro getToro() {
+    return Toro.sInstance;
+  }
+
+  /**
    * Complete the playback
    */
   @CallSuper protected void onCompletion() {
