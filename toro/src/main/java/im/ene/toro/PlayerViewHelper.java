@@ -20,6 +20,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
@@ -57,6 +58,7 @@ public abstract class PlayerViewHelper {
         player.preparePlayer(false);
       } else {
         manager.restorePlaybackState(player.getMediaId());
+        Log.e(TAG, "startPlayback@[3]: " + Integer.toHexString(player.hashCode()));
         manager.startPlayback();
       }
     } else if (manager.getPlayer() == null) {
@@ -71,6 +73,7 @@ public abstract class PlayerViewHelper {
                 } else {
                   manager.setPlayer(player);
                   manager.restorePlaybackState(player.getMediaId());
+                  Log.e(TAG, "startPlayback@[4]: " + Integer.toHexString(player.hashCode()));
                   manager.startPlayback();
                 }
               }

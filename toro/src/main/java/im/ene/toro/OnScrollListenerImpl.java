@@ -19,9 +19,12 @@ package im.ene.toro;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static im.ene.toro.Toro.TAG;
 
 /**
  * Created by eneim on 1/31/16.
@@ -121,6 +124,7 @@ final class OnScrollListenerImpl extends RecyclerView.OnScrollListener implement
           currentPlayer.preparePlayer(false);
         } else if (!currentPlayer.isPlaying()) {  // player is prepared and ready to play
           playerManager.restorePlaybackState(currentPlayer.getMediaId());
+          Log.e(TAG, "startPlayback@[5]: " + Integer.toHexString(currentPlayer.hashCode()));
           playerManager.startPlayback();
         }
       }
@@ -149,6 +153,7 @@ final class OnScrollListenerImpl extends RecyclerView.OnScrollListener implement
     } else {
       playerManager.setPlayer(electedPlayer);
       playerManager.restorePlaybackState(electedPlayer.getMediaId());
+      Log.e(TAG, "startPlayback@[6]: " + Integer.toHexString(electedPlayer.hashCode()));
       playerManager.startPlayback();
     }
   }

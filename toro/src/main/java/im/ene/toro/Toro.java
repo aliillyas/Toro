@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 import java.util.Collections;
@@ -505,17 +506,17 @@ public final class Toro implements Application.ActivityLifecycleCallbacks {
     if (player == manager.getPlayer()) {
       // player.isPlaying() is always false here
       manager.restorePlaybackState(player.getMediaId());
+      Log.e(TAG, "startPlayback@[1]: " + Integer.toHexString(player.hashCode()));
       manager.startPlayback();
     } else {
       // There is no current player, but this guy is prepared, so let's him go ...
       if (manager.getPlayer() == null) {
         // ... if it's possible
-        if (player.wantsToPlay() && Toro.getStrategy().allowsToPlay(player, parent)) {
-          manager.setPlayer(player);
-          // player.isPrepared() is always true here
-          manager.restorePlaybackState(player.getMediaId());
-          manager.startPlayback();
-        }
+        manager.setPlayer(player);
+        // player.isPrepared() is always true here
+        manager.restorePlaybackState(player.getMediaId());
+        Log.e(TAG, "startPlayback@[2]: " + Integer.toHexString(player.hashCode()));
+        manager.startPlayback();
       }
     }
   }
