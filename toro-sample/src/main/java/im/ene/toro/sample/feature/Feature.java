@@ -25,6 +25,7 @@ import im.ene.toro.sample.feature.basic1.Basic1Activity;
 import im.ene.toro.sample.feature.basic2.Basic2Activity;
 import im.ene.toro.sample.feature.basic3.Basic3Activity;
 import im.ene.toro.sample.feature.basic4.Basic4Activity;
+import im.ene.toro.sample.feature.sheet.BottomPanelActivity;
 import im.ene.toro.sample.feature.extended.ExtendedListActivity;
 import im.ene.toro.sample.feature.facebook.FacebookTimelineActivity;
 import im.ene.toro.sample.feature.legacy.LegacyActivity;
@@ -35,6 +36,7 @@ import im.ene.toro.sample.experiment.MediaListActivity;
  */
 
 public enum Feature {
+  BOTTOM_PANEL(BottomPanelActivity.class, R.string.bottom_sheet_example, R.string.bottom_sheet_example),
   EXPERIMENT(MediaListActivity.class, R.string.experiment, R.string.experiment_description), //
   BASIC_4(Basic4Activity.class, R.string.basic_sample_4, R.string.basic_sample_4_description),  //
   BASIC_1(Basic1Activity.class, R.string.basic_sample_1, R.string.basic_sample_1_description),  //

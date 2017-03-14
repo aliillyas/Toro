@@ -88,6 +88,14 @@
     This sample use the legacy VideoView.]]>
   </string>
 
+  <string name="bottom_sheet_example">
+    Bottom Sheet Example
+  </string>
+
+  <string name="bottom_sheet_description">
+    Bottom Sheet Example
+  </string>
+
   <string name="extended_sample_1">
     Toro Extended Sample 1: Minimal, Powerful
   </string>

@@ -14,22 +14,23 @@
  * limitations under the License.
  */
 
-package im.ene.toro.sample.feature.basic4;
+package im.ene.toro.sample.feature.sheet;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import im.ene.toro.sample.BaseActivity;
 
 /**
- * Created by eneim on 6/30/16.
+ * Created by eneim on 3/14/17.
  */
-public class Basic4Activity extends AppCompatActivity {
+
+public class BottomPanelActivity extends BaseActivity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction()
-          .replace(android.R.id.content, Basic4ListFragment.newInstance())
+          .replace(android.R.id.content, BottomPanelFragment.newInstance())
           .commit();
     }
   }

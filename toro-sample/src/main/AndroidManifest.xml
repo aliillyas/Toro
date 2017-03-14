@@ -26,7 +26,13 @@
     <activity
         android:label="@string/activity_show_case"
         android:launchMode="singleTop"
+        android:name=".feature.sheet.BottomPanelActivity"/>
+
+    <activity
+        android:label="@string/activity_show_case"
+        android:launchMode="singleTop"
         android:name=".feature.basic1.Basic1Activity"/>
+
     <activity
         android:label="@string/activity_show_case"
         android:launchMode="singleTop"
