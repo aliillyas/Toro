@@ -19,11 +19,8 @@ package im.ene.toro.sample;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.squareup.leakcanary.LeakCanary;
 import im.ene.toro.Toro;
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by eneim on 2/1/16.
@@ -37,8 +34,7 @@ public class ToroApp extends Application {
     if (BuildConfig.DEBUG) {
       initLeakCanary();
     }
-    
-    Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+
     Toro.init(this);
     sApp = this;
   }

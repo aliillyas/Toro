@@ -9,7 +9,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 repositories {
@@ -114,14 +113,6 @@ dependencies {
   compile 'com.jakewharton:butterknife:8.5.1'
   annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
-  compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-    transitive = true;
-  }
-
-  compile('com.crashlytics.sdk.android:crashlytics-ndk:1.1.5') {
-    transitive = true;
-  }
-
   debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
   releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
   testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
@@ -153,11 +144,4 @@ dependencies {
   androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
   androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
 }
-
-crashlytics {
-  enableNdk true
-  androidNdkOut 'src/main/obj'
-  androidNdkLibsOut 'src/main/libs'
-}
-
 // apply plugin: 'com.google.gms.google-services'

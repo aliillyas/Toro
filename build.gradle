@@ -1,11 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+rootProject.ext.signing_config_password = "wwWelcome1"
+rootProject.ext.signing_config_alias = "ww"
+rootProject.ext.ww_aws_access_key = hasProperty('WW_AWS_ACCESS_KEY') ? WW_AWS_ACCESS_KEY : System.getenv('WW_AWS_ACCESS_KEY')
+rootProject.ext.ww_secret_key = hasProperty('WW_SECRET_KEY') ? WW_SECRET_KEY : System.getenv('WW_SECRET_KEY')
 
 buildscript {
   repositories {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.0'
+    classpath 'com.android.tools.build:gradle:2.3.1'
 
     classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.2'
     classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
@@ -16,13 +20,19 @@ buildscript {
 }
 
 ext {
+  build_number = System.getenv("BUILD_NUMBER") != null ? System.getenv("BUILD_NUMBER") : -1
+  base_version = "1.0";
+  lib_version = "${base_version}.5"
+  app_version = "${base_version}.0.${build_number}"
+  version_code = 2
+
   libraryVersion = '2.2.0'
   androidVersion = 25
   buildToolVersion = '25.0.2'
   supportLibraryVersion = '25.2.0'
   exoPlayerVersion = 'r1.5.14'
   exoPlayer2Version = 'r2.2.0'
-  minSupportSDKVersion = 16
+  minSupportSDKVersion = 15
 
   // test
   junitVersion = '4.12'
@@ -41,6 +51,13 @@ allprojects {
     maven { url "https://jitpack.io" }
     maven {
       url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+    maven {
+      url "s3://androidrepos/releases"
+      credentials(AwsCredentials) {
+        accessKey rootProject.ext.ww_aws_access_key
+        secretKey rootProject.ext.ww_secret_key
+      }
     }
   }
 
