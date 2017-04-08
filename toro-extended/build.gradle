@@ -15,6 +15,7 @@
  */
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 archivesBaseName = 'VideoListPlayer'
 
@@ -166,17 +167,6 @@ task sourceJar(type: Jar) {
   from android.sourceSets.main.java.srcDirs
 }
 
-afterEvaluate {
-  tasks.withType(Test) {
-    testLogging {
-      showStackTraces true
-      exceptionFormat "full"
-      events "passed", "skipped", "failed", "standardOut", "standardError"
-    }
-  }
-  publish.dependsOn assembleRelease
-  PublishToMavenLocal.dependsOn assembleRelease
-}
 // REF: https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en
 // > gradlew install
 // > gradlew bintrayUpload
