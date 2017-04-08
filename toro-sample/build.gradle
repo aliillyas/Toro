@@ -1,3 +1,4 @@
+
 buildscript {
   repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -10,6 +11,9 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'com.android.application'
+apply plugin: 'maven'
+apply plugin: 'git-repo'
 
 repositories {
   maven { url 'https://maven.fabric.io/public' }

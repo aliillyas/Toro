@@ -121,6 +121,10 @@ publishing {
       artifactId "${archivesBaseName}"
       version "${lib_version}"
 
+      Artifact sourceJar {
+        classifier 'sources'
+      }
+
       Artifact ("${buildDir}/outputs/aar/${archivesBaseName}-release.aar") {
         extension = 'aar'
       }
@@ -165,6 +169,17 @@ publishing {
 
 task sourceJar(type: Jar) {
   from android.sourceSets.main.java.srcDirs
+}
+
+afterEvaluate {
+  tasks.withType(Test) {
+    testLogging {
+      showStackTraces true
+      exceptionFormat "full"
+      events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+  }
+  publish.dependsOn assembleRelease
 }
 
 // REF: https://inthecheesefactory.com/blog/how-to-upload-library-to-jcenter-maven-central-as-dependency/en
