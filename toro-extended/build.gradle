@@ -17,7 +17,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-archivesBaseName = 'VideoListPlayer'
+archivesBaseName = 'android-toro'
 
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
@@ -117,15 +117,15 @@ dependencies {
 publishing {
   publications {
     mavenJava(MavenPublication) {
-      groupId 'com.weightwatchers.videolistplayer'
+      groupId 'com.weightwatchers.toro'
       artifactId "${archivesBaseName}"
       version "${lib_version}"
 
-      Artifact sourceJar {
+      artifact sourceJar {
         classifier 'sources'
       }
 
-      Artifact ("${buildDir}/outputs/aar/${archivesBaseName}-release.aar") {
+      artifact ("${buildDir}/outputs/aar/${archivesBaseName}-release.aar") {
         extension = 'aar'
       }
 

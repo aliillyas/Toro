@@ -13,7 +13,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'com.android.application'
 apply plugin: 'maven'
-apply plugin: 'git-repo'
 
 repositories {
   maven { url 'https://maven.fabric.io/public' }
@@ -36,21 +35,6 @@ android {
   compileSdkVersion rootProject.ext.androidVersion
   buildToolsVersion rootProject.ext.buildToolVersion
 
-  signingConfigs {
-    release {
-      keyAlias toro_prodKeyAlias
-      keyPassword toro_prodKeyPassword
-      storeFile file(toro_prodStoreFile)
-      storePassword toro_prodStorePassword
-    }
-
-    debug {
-      keyAlias "debug"
-      keyPassword "android"
-      storeFile file("debug.jks")
-      storePassword "android"
-    }
-  }
 
   defaultConfig {
     applicationId "${TORO_SAMPLE_APP_ID}"
@@ -59,30 +43,11 @@ android {
 
     versionCode dateTimeInt()
     versionName dateTimeString()
-    archivesBaseName = "toro_sample"
-
-    manifestPlaceholders = [fabric_api_key : "${TORO_SAMPLE_FABRIC_API_KEY}",
-                            youtube_api_key: "${TORO_SAMPLE_YOUTUBE_API_KEY}"]
 
     vectorDrawables.useSupportLibrary = true
 
     // multiDexEnabled true
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-  }
-
-  buildTypes {
-    release {
-      signingConfig signingConfigs.release
-      minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
-
-    debug {
-      signingConfig signingConfigs.debug
-      applicationIdSuffix ".debug"
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
   }
 
   packagingOptions {
