@@ -22,7 +22,7 @@ buildscript {
 ext {
   build_number = System.getenv("BUILD_NUMBER") != null ? System.getenv("BUILD_NUMBER") : -1
   base_version = "1.0";
-  lib_version = "${base_version}.0"
+  lib_version = "${base_version}.2"
   app_version = "${base_version}.0.${build_number}"
   version_code = 2
 
